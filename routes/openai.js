@@ -18,21 +18,19 @@ router.use((req, res, next) => {
   next();
 })
 
-// Highlight keywords in given reference text
-router.post('/keywords', async (req, res) => {
+async function handleRequest(req, res, systemMessage) {
   const referenceText = req.body.referenceText || '';
-  console.log(referenceText);
+
   if (referenceText.trim().length === 0) {
     return res.send({
       error: true,
       errorMessage: "Please provide valid reference text"
     });
   }
-
   const messages = [
     {
       role: "system",
-      content: "You are a helpful medical professional. Highlight keywords in the content you are provided to a max 20 words."
+      content: systemMessage
     },
     {
       role: 'user',
@@ -55,6 +53,20 @@ router.post('/keywords', async (req, res) => {
     error: false,
     data: response['choices'][0]['message']['content']
   });
+}
+
+// Highlight keywords in given reference text
+router.post('/keywords', async (req, res) => {
+  const systemMessage = "You are a helpful medical professional. Highlight keywords in the content you are provided to a max 20 words."
+
+  handleRequest(req, res, systemMessage);
+})
+
+// Generate table from given reference text
+router.post('/table', async (req, res) => {
+  const systemMessage = "You are a helpful medical professional. Generate a table from the content you are provided."
+
+  handleRequest(req, res, systemMessage);
 })
 
 module.exports = router
