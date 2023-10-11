@@ -8,6 +8,12 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// escape special chars in input for flowchart creation
+function escape(str) {
+  return str.replace(/\(/g, "#40;")
+        .replace(/\)/g, "#41;")
+}
+
 router.use((req, res, next) => {
   if (!process.env.OPENAI_API_KEY) {
     res.status(500).json({
@@ -81,7 +87,7 @@ router.post('/flowchart', async (req, res) => {
   const messages = [
     {
       role: "system",
-      content: `Behave as \"MermaidGPT\"; for every query the user submits, you are going to create an example of what Mermaid format for the inputted text looks like. Example map for an example topic: \nflowchart TD \nA[Christmas] →|Get money| B(Go shopping) \nB → C{Let me think} \nC →|One| D[Laptop]`
+      content: `Behave as \"MermaidGPT\"; for every query the user submits, you are going to create a Mermaid flowchart for the inputted text. Example flowchart for an example topic: \nflowchart TD \nA[Christmas] →|Get money| B(Go shopping) \nB → C{Let me think} \nC →|One| D[Laptop]`
     },
     {
       role: 'user',
@@ -103,7 +109,7 @@ router.post('/flowchart', async (req, res) => {
   const diagram = response['choices'][0]['message']['content'];
 
   // convert mermaid diagram to svg
-  fs.writeFileSync('input.mmd', diagram);
+  fs.writeFileSync('input.mmd', escape(diagram));
   execSync('npx mmdc -c mermaidConfig.json -i input.mmd -o output.svg');
   const svgContent = fs.readFileSync('output.svg', "utf-8");
 
