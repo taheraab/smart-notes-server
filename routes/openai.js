@@ -60,16 +60,16 @@ async function handleRequest(req, res, systemMessage) {
   });
 }
 
-// Highlight keywords in given reference text
-router.post('/keywords', async (req, res) => {
-  const systemMessage = "You are a helpful medical professional. Highlight keywords in the content you are provided to a max 20 words."
+// Highlight key concepts in given reference text
+router.post('/key-concepts', async (req, res) => {
+  const systemMessage = "You are a senior medical editor. Summarize the content provided into key concepts in markdown format."
 
   handleRequest(req, res, systemMessage);
 })
 
 // Generate table from given reference text
 router.post('/table', async (req, res) => {
-  const systemMessage = "You are a helpful medical professional. Generate a table from the content you are provided."
+  const systemMessage = "You are a senior medical editor. Answer only using provided content. Generate a table from content you are provided in markdown format."
 
   handleRequest(req, res, systemMessage);
 })
