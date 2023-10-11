@@ -62,7 +62,7 @@ async function handleRequest(req, res, systemMessage) {
 
 // Highlight key concepts in given reference text
 router.post('/key-concepts', async (req, res) => {
-  const systemMessage = "You are a senior medical editor. Summarize the content provided into key concepts in markdown format."
+  const systemMessage = "You are a senior medical editor. Answer only using provided content. Summarize and simplify key concepts in the content you are provided in markdown format."
 
   handleRequest(req, res, systemMessage);
 })
