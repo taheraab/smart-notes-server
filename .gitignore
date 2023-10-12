@@ -8,3 +8,5 @@ node_modules
 
 input.mmd
 output.svg
+
+.DS_Store

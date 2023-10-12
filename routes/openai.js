@@ -73,12 +73,21 @@ router.post('/key-concepts', async (req, res) => {
   handleRequest(req, res, systemMessage);
 })
 
+// Simplify the content for a student
+router.post('/simplify', async (req, res) => {
+  const systemMessage = "You are a senior medical editor. Answer only using provided content. Simplify key concepts and summarize in markdown format. Decrease content length by half."
+
+  handleRequest(req, res, systemMessage);
+})
+
 // Generate table from given reference text
 router.post('/table', async (req, res) => {
   const systemMessage = "You are a senior medical editor. Answer only using provided content. Generate a table from content you are provided in markdown format."
 
   handleRequest(req, res, systemMessage);
 })
+
+const fileId = 1;
 
 // Generate flowchart from given reference text
 router.post('/flowchart', async (req, res) => {
