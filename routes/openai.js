@@ -107,7 +107,7 @@ router.post('/flowchart', async (req, res) => {
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages,
-    temperature: 0.6,
+    temperature: 1,
     max_tokens: 256,
     top_p: 1,
     frequency_penalty: 0,
